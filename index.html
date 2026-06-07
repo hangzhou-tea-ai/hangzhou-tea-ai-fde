@@ -1168,6 +1168,61 @@
   }
   .slide.dark .canvas-card .chrome-min,.split-half .half.b-ink .canvas-card .chrome-min{color:rgba(255,255,255,.62)}
 
+  /* ============ 苏苏角色照片叙事页 ============
+     运行时用生成图重排 14 页: 上半屏真人茶文化场景,下半屏方案要点。
+     桌面保持横向翻页;移动端在下方 media query 中切为竖向阅读。 */
+  .photo-deck-slide .canvas-card{padding:0;display:flex;flex-direction:column;overflow:hidden;background:var(--paper)}
+  .photo-stage{
+    position:relative;flex:0 0 58vh;min-height:0;overflow:hidden;background:var(--grey-1);
+    border-bottom:1px solid var(--border-subtle)
+  }
+  .photo-stage > img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block
+  }
+  .photo-stage::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,rgba(0,0,0,.34),rgba(0,0,0,.08) 42%,rgba(0,0,0,.18));
+    pointer-events:none
+  }
+  .photo-stage .chrome-min{
+    position:absolute;top:5.6vh;left:5vw;right:5vw;z-index:2;margin-bottom:0;
+    color:rgba(255,255,255,.86)
+  }
+  .photo-title-block{
+    position:absolute;left:5vw;bottom:5.8vh;z-index:2;
+    width:min(760px,44vw);background:var(--paper);color:var(--text-primary);
+    padding:30px 36px 34px;border-left:6px solid var(--accent)
+  }
+  .photo-title-kicker{
+    font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:16px
+  }
+  .photo-title{
+    font-family:var(--sans),var(--sans-zh);font-size:78px;line-height:1.02;font-weight:200;letter-spacing:0
+  }
+  .photo-cover .photo-title{font-size:88px}
+  .photo-body{
+    flex:1;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+    gap:3.2vw;padding:5vh 5vw 5.4vh;align-items:start;min-height:0
+  }
+  .photo-lead{
+    font-family:var(--sans),var(--sans-zh);font-size:24px;line-height:1.55;font-weight:400;
+    letter-spacing:0;color:var(--text-primary);max-width:46ch
+  }
+  .photo-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.2vw;align-items:start}
+  .photo-point{display:flex;flex-direction:column;gap:8px;min-width:0}
+  .photo-point .rule-line{height:1px;background:var(--ink);width:100%;opacity:.86}
+  .photo-point .kpi-hero{
+    font-family:var(--sans),var(--sans-zh);font-size:48px;line-height:1.02;font-weight:200;letter-spacing:0;
+    color:var(--text-primary);word-break:keep-all
+  }
+  .photo-point.is-accent .kpi-hero{color:var(--accent)}
+  .photo-point .body-sm{margin-top:2px;color:var(--text-secondary);opacity:1}
+  body.motion-ready .photo-deck-slide [data-anim],
+  body.motion-ready .photo-deck-slide [data-anim] *{
+    opacity:1!important;transform:none!important
+  }
+
   /* 响应式降级 */
   @media (max-width:900px){
     .h-hero{font-size:16vw}
@@ -1179,6 +1234,45 @@
     .pipeline{grid-template-columns:repeat(2,1fr)}
     .grid-2-7-5,.grid-2-6-6,.grid-2-8-4,.grid-2-4-8{grid-template-columns:1fr}
     .grid-12{grid-template-columns:repeat(6,1fr)}
+  }
+
+  @media (max-width:760px), (orientation:portrait) and (max-width:1024px){
+    html,body{height:auto;min-height:100%;overflow:auto}
+    body{overflow-x:hidden;background:var(--paper)}
+    canvas.bg,#hint,#nav{display:none!important}
+    #deck{
+      position:relative!important;inset:auto!important;width:100%!important;height:auto!important;
+      display:block!important;transform:none!important;transition:none!important;will-change:auto!important
+    }
+    .slide{
+      width:100%!important;height:auto!important;min-height:0!important;
+      padding:0!important;display:block!important;overflow:visible!important;
+      border-bottom:1px solid var(--border-subtle)
+    }
+    .canvas-card,.photo-deck-slide .canvas-card{
+      width:100%!important;height:auto!important;min-height:0!important;overflow:visible!important
+    }
+    .photo-stage{
+      flex:none;height:auto;aspect-ratio:9/10;border-bottom:1px solid var(--border-subtle)
+    }
+    .photo-stage .chrome-min{
+      top:18px;left:18px;right:18px;font-size:11px;letter-spacing:.1em;
+      gap:16px;line-height:1.4
+    }
+    .photo-stage .chrome-min .r{display:none}
+    .photo-title-block{
+      left:18px;right:18px;bottom:18px;width:auto;max-width:none;
+      padding:18px 20px 20px;border-left:4px solid var(--accent)
+    }
+    .photo-title-kicker{font-size:11px;letter-spacing:.12em;margin-bottom:10px}
+    .photo-title,.photo-cover .photo-title{font-size:38px;line-height:1.08;letter-spacing:0}
+    .photo-body{display:block;padding:24px 20px 38px}
+    .photo-lead{font-size:19px;line-height:1.55;max-width:none}
+    .photo-points{grid-template-columns:1fr;gap:20px;margin-top:26px}
+    .photo-point{gap:7px}
+    .photo-point .kpi-hero{font-size:34px;line-height:1.08;letter-spacing:0}
+    .photo-point .body-sm{font-size:16px;line-height:1.55}
+    #overview{display:none!important}
   }
 </style>
 </head>
@@ -1792,6 +1886,267 @@
 </section>
 
 </div>
+
+<script>
+/* 运行时照片叙事版: 保持单 HTML 交付,同时让每页都以苏苏角色生成图组织。 */
+(function(){
+  const slides = [
+    {
+      layout:'SWISS-COVER-ASCII',
+      cls:'photo-cover',
+      page:'01 / 14 · FDE FIELD PLAN',
+      right:'AI + XHS + TEA HOUSE',
+      img:'images/susu-ai-01-cover.jpg',
+      alt:'苏苏在杭州茶健康生活馆进行AI运营规划',
+      tag:'FDE · DELIVERABLE ORIENTED',
+      title:'杭州茶健康生活馆<br>主理人 AI 运营方案',
+      lead:'以苏苏为真实主理人样板，把茶生活馆、茶文化专业判断、AI 内容生产和 9800 会员权益转化合成一套可交付、可复盘、可复制的运营系统。',
+      points:[
+        ['Pilot','苏苏样板','先跑通一个真实主理人的账号、内容和承接。'],
+        ['Channel','小红书','用日常内容建立信任，不在公开内容里硬卖高客单。'],
+        ['Outcome','9800','让权益包从销售话术变成用户看得见的生活场景。']
+      ]
+    },
+    {
+      layout:'S22',
+      page:'02 / 14 · TEA HOUSE VISUAL',
+      right:'SCENE EVIDENCE',
+      img:'images/susu-ai-02-tea-house.jpg',
+      alt:'苏苏在茶生活馆茶席前泡茶',
+      tag:'真实空间 · 真实主理人',
+      title:'先建立<br>信任现场',
+      lead:'小红书不是凭空造人设，而是把“杭州茶健康生活馆”的真实空间、苏苏的专业判断和用户到店体验持续视觉化。',
+      points:[
+        ['Identity','主理人','对外以个人 IP 叙事，降低机构官方表达风险。'],
+        ['Place','生活馆','让用户知道线下转化发生在哪里、为何值得到店。'],
+        ['Trust','信任','内容先服务用户理解，再承接私信和深聊。']
+      ]
+    },
+    {
+      layout:'S22',
+      page:'03 / 14 · THE REAL JOB',
+      right:'POSITIONING',
+      img:'images/susu-ai-03-guests.jpg',
+      alt:'苏苏在茶桌前接待用户并讲解茶文化',
+      tag:'不是先卖 9800',
+      title:'先让用户<br>相信苏苏',
+      lead:'从 0 账号开始，第一任务不是快速成交，而是让用户记住一个真实、专业、愿意服务的茶生活馆主理人。',
+      points:[
+        ['Boundary','身份边界','不做机构官方口吻，聚焦苏苏作为主理人的可信表达。'],
+        ['Conversation','轻咨询','用茶礼、泡法、茶会和生活馆日常触发自然沟通。'],
+        ['Product','后置成交','把 9800 权益放进私信、到店和深聊环节说明。']
+      ]
+    },
+    {
+      layout:'S22',
+      page:'04 / 14 · ACCEPTANCE',
+      right:'PILOT OUTPUTS',
+      img:'images/susu-ai-04-talk.jpg',
+      alt:'苏苏在小型茶文化分享中发言',
+      tag:'验收不是爆款',
+      title:'交付四类<br>可复盘资产',
+      lead:'试点期不按成熟博主的爆款指标验收，而按账号可信度、内容资产、线索记录和成交承接证据验收。',
+      points:[
+        ['Profile','1 个主页','定位、头像、简介、置顶笔记和身份表达完成。'],
+        ['Topics','30 个选题','把茶文化、茶旅、课程和权益拆成可发布内容。'],
+        ['CRM','1 套表','记录评论、私信、到店、深聊、讲解和成交归因。']
+      ]
+    },
+    {
+      layout:'S22',
+      page:'05 / 14 · FDE ARCHITECTURE',
+      right:'THREE LAYERS',
+      img:'images/susu-ai-06-workflow.jpg',
+      alt:'苏苏在茶生活馆墙面前规划AI运营流程',
+      tag:'面向交付的工程化',
+      title:'人设 内容 转化<br>三层同时建',
+      lead:'FDE 不是单点提示词，而是把主理人表达、AI 内容产能和线索转化动作做成可训练的工程系统。',
+      points:[
+        ['Layer 01','信任层','账号定位、真实场景、专业背书和风险边界。'],
+        ['Layer 02','内容层','爆款拆解、选题孵化、标题文案和逐字稿。'],
+        ['Layer 03','转化层','私信承接、到店深聊、9800 说明和复盘。']
+      ]
+    },
+    {
+      layout:'S22',
+      page:'06 / 14 · VISUAL ATLAS',
+      right:'CONTENT MATERIALS',
+      img:'images/susu-ai-07-atlas.jpg',
+      alt:'苏苏在茶桌前整理内容素材和茶文化照片',
+      tag:'把权益变成素材库',
+      title:'一页看懂<br>内容资产',
+      lead:'茶席、茶叶、空间、课程、茶旅、用户问题和销售异议都要被归档成可调用的内容资产，而不是临时想一条发一条。',
+      points:[
+        ['Material','素材','茶器、茶汤、茶叶、空间与人物动作持续积累。'],
+        ['Formula','公式','标题、开头、镜头、转化动作按类型拆解。'],
+        ['Reuse','复用','同一权益可以变成笔记、视频、私信和讲解脚本。']
+      ]
+    },
+    {
+      layout:'S22',
+      page:'07 / 14 · CONTENT PILLARS',
+      right:'6 COLUMNS',
+      img:'images/susu-ai-08-video.jpg',
+      alt:'苏苏在茶生活馆录制小红书茶文化短视频',
+      tag:'先让人想收藏',
+      title:'六个栏目<br>稳定输出',
+      lead:'苏苏账号要用固定栏目降低生产难度，让用户形成“看她就懂茶、来店可体验、私信能咨询”的心智。',
+      points:[
+        ['Knowledge','茶文化入门','六大茶类、节气喝茶、茶礼礼仪。'],
+        ['Practice','茶艺泡法','水温、投茶量、出汤时间和常见误区。'],
+        ['Lifestyle','生活馆日常','茶席、接待、茶会和中式健康生活。']
+      ]
+    },
+    {
+      layout:'S22',
+      page:'08 / 14 · AI OPERATION LOOP',
+      right:'FORMULA TO FEEDBACK',
+      img:'images/susu-ai-05-analytics.jpg',
+      alt:'苏苏在茶桌前使用电脑复盘小红书内容数据',
+      tag:'AI 放大苏苏',
+      title:'每周一轮<br>运营闭环',
+      lead:'AI 的价值不是替代苏苏，而是把她的专业判断、用户反馈和公司知识库转成稳定的内容生产节奏。',
+      points:[
+        ['Input','拆解公式','分析茶叶、茶旅、课程类内容的标题与结构。'],
+        ['Create','生成资产','产出选题、标题、文案、逐字稿和发布建议。'],
+        ['Review','复盘投喂','把互动、私信和成交异议反向输入下一周。']
+      ]
+    },
+    {
+      layout:'S22',
+      page:'09 / 14 · PILOT ROADMAP',
+      right:'4-6 WEEKS',
+      img:'images/susu-ai-09-tea-garden.jpg',
+      alt:'苏苏在茶园中观察茶树并进行茶旅体验',
+      tag:'先样板 再复制',
+      title:'从茶园到茶杯<br>跑通样板',
+      lead:'路线图不靠硬性日期承诺，而靠每阶段的验收条件推进：对齐口径、起号、内容化、承接、复盘。',
+      points:[
+        ['01','口径对齐','9800 权益、身份边界、合规表达和到店承接。'],
+        ['02','起号发布','主页、栏目、试拍、首批内容和私信动作。'],
+        ['03','复制沉淀','漏斗归因、话术模板、主理人训练 SOP。']
+      ]
+    },
+    {
+      layout:'S22',
+      page:'10 / 14 · MESSAGE BOUNDARY',
+      right:'PUBLIC / PRIVATE',
+      img:'images/susu-ai-03-guests.jpg',
+      alt:'苏苏在茶桌前与用户深聊茶文化和会员服务',
+      tag:'公开种兴趣 私域做成交',
+      title:'9800 权益<br>分层表达',
+      lead:'公开内容解决兴趣和信任，私信到店解决适合度、权益边界、价格理解和成交异议。',
+      points:[
+        ['Public','公开笔记','讲茶礼、泡法、茶会、茶园故事和健康生活方式。'],
+        ['Private','私信深聊','解释适合人群、使用频率、权益组合和下一步。'],
+        ['Store','到店承接','用真实茶席体验把高客单价变成可感知服务。']
+      ]
+    },
+    {
+      layout:'S22',
+      page:'11 / 14 · RIGHTS AS MATERIALS',
+      right:'9800 CONTENTIZATION',
+      img:'images/susu-ai-09-tea-garden.jpg',
+      alt:'苏苏在茶园场景中呈现从茶园到茶杯的权益内容',
+      tag:'先拍用户场景',
+      title:'把 9800<br>内容化',
+      lead:'9800 会员包不是一张权益清单，而是一组可被用户理解的体验材料：茶礼、课程、空间、茶旅、复购和长期服务。',
+      points:[
+        ['Tea Gift','健康茶礼','最容易被收藏、转发和触发咨询的入口内容。'],
+        ['Course','线下课程','用专业学习和体验感支撑高价值服务。'],
+        ['Travel','茶旅体验','把产地、茶园和茶杯之间的信任链拍出来。']
+      ]
+    },
+    {
+      layout:'S22',
+      page:'12 / 14 · REVIEW LEDGER',
+      right:'FUNNEL METRICS',
+      img:'images/susu-ai-05-analytics.jpg',
+      alt:'苏苏在茶桌前查看内容运营数据和线索复盘',
+      tag:'数据不是后台截图',
+      title:'复盘四个<br>关键动作',
+      lead:'每周复盘要回到业务动作：是否稳定发布，是否触发互动，是否产生线索，是否完成深聊与成交归因。',
+      points:[
+        ['Publish','发布','内容数量、按周执行稳定性和栏目覆盖。'],
+        ['Lead','线索','评论、收藏、私信、问题和意向标签。'],
+        ['Sales','成交','到店、讲解、成交、流失原因和下次跟进。']
+      ]
+    },
+    {
+      layout:'S22',
+      page:'13 / 14 · COLLABORATION',
+      right:'WHO DOES WHAT',
+      img:'images/susu-ai-06-workflow.jpg',
+      alt:'苏苏在茶生活馆内梳理协作流程和执行分工',
+      tag:'协作不是口头配合',
+      title:'分工清楚<br>才能复制',
+      lead:'FDE 负责系统化交付，苏苏负责真实表达，运营负责发布记录，销售承接负责深聊成交和归因。',
+      points:[
+        ['FDE','方案系统','阶段方案、模板、CRM 字段和复盘机制。'],
+        ['Susu','真实表达','出镜、茶文化判断、生活馆素材和用户反馈。'],
+        ['Team','执行承接','发布节奏、私信记录、到店讲解和成交跟进。']
+      ]
+    },
+    {
+      layout:'SWISS-CLOSING-ASCII',
+      cls:'photo-cover',
+      page:'14 / 14 · CLOSING',
+      right:'OPERATING MODEL',
+      img:'images/susu-ai-02-tea-house.jpg',
+      alt:'苏苏在茶生活馆茶席前收束AI运营方案',
+      tag:'MANIFESTO',
+      title:'先跑通一个人<br>再复制一群人',
+      lead:'苏苏样板的价值，不是只做一个账号，而是沉淀一套可训练、可检查、可复盘的主理人增长系统。',
+      points:[
+        ['Trainable','可训练','新主理人可按栏目、模板和话术快速上手。'],
+        ['Checkable','可检查','用内容、线索、到店和成交证据做过程管理。'],
+        ['Repeatable','可复制','形成 AI + 自媒体 + 线下承接的增长范式。']
+      ]
+    }
+  ];
+
+  function esc(value){
+    return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function render(s, i){
+    const points = s.points.map((p, idx) => `
+      <div class="photo-point ${idx === 2 ? 'is-accent' : ''}">
+        <div class="rule-line"></div>
+        <div class="t-meta">${esc(p[0])}</div>
+        <div class="kpi-hero">${esc(p[1])}</div>
+        <div style="height:1px;background:var(--border-subtle);margin-top:auto"></div>
+        <p class="body-sm">${esc(p[2])}</p>
+      </div>`).join('');
+
+    return `
+<${'section'} class="slide photo-deck-slide ${s.cls || ''}" data-layout="${esc(s.layout)}" data-animate="image-hero">
+  <div class="canvas-card">
+    <div class="photo-stage" data-anim="img">
+      <img src="${esc(s.img)}" alt="${esc(s.alt)}" data-image-slot="s22-hero-21x9" loading="eager">
+      <div class="chrome-min">
+        <div class="l">${esc(s.page)}</div>
+        <div class="r">${esc(s.right)}</div>
+      </div>
+      <div class="photo-title-block" data-anim="title-block">
+        <div>
+          <div class="photo-title-kicker">${esc(s.tag)}</div>
+          <h${i === 0 ? '1' : '2'} class="photo-title">${s.title}</h${i === 0 ? '1' : '2'}>
+        </div>
+      </div>
+    </div>
+    <div class="photo-body" data-anim="kpi">
+      <div class="photo-lead">${esc(s.lead)}</div>
+      <div class="photo-points">${points}</div>
+    </div>
+  </div>
+</${'section'}>`;
+  }
+
+  const deck = document.getElementById('deck');
+  deck.innerHTML = slides.map(render).join('');
+})();
+</script>
 
 <div id="nav"></div>
 
